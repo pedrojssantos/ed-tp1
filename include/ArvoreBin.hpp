@@ -11,6 +11,7 @@ class ArvoreBin {
         ArvoreBin();
         void Inserir(int valor);
         void Remover(int valor);
+        NoArvore* Buscar(int valor);
 };
 
 #endif

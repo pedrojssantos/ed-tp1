@@ -132,3 +132,20 @@ void ArvoreBin::Remover(int valor)
 
     delete noAtual;
 }
+
+NoArvore* ArvoreBin::Buscar(int valor)
+{
+    NoArvore* noAtual = this->raiz;
+
+    while (noAtual)
+    {
+        if (valor == noAtual->getValor()) break;
+
+        if (valor > noAtual->getValor())
+            noAtual = noAtual->getFilhoMaior();
+        else
+            noAtual = noAtual->getFilhoMenor();
+    }
+
+    return noAtual;
+}
