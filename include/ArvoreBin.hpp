@@ -6,10 +6,11 @@
 class ArvoreBin {
     private:
         NoArvore* raiz;
-
+        
     public:
         ArvoreBin();
         void Inserir(int valor);
+        void Remover(int valor);
 };
 
 #endif
