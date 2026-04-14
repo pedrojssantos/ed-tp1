@@ -2,6 +2,20 @@
 
 ArvoreBin::ArvoreBin() : raiz(nullptr) {}
 
+ArvoreBin::~ArvoreBin()
+{
+    destruirArvore(this->raiz);
+}
+
+void ArvoreBin::destruirArvore(NoArvore* no)
+{
+    if (!no) return;
+    
+    destruirArvore(no->getFilhoMenor());
+    destruirArvore(no->getFilhoMaior());
+    delete no;
+}
+
 void ArvoreBin::Inserir(int valor)
 {
     NoArvore* novoNo = new NoArvore();
