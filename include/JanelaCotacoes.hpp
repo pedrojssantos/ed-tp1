@@ -19,8 +19,8 @@ class JanelaCotacoes {
         int getTamanho();
         double getMaisRecente();
         double getMaisAntigo();
-        double somaRi();
         double positivoRi();
+        void somasParaMetricas(double& somaNormal, double& somaQuadrados);
 };
 
 #endif

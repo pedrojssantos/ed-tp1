@@ -35,19 +35,6 @@ double JanelaCotacoes::getMaisAntigo() {
     return precos[indiceAtual];
 }
 
-double JanelaCotacoes::somaRi() {
-    if (tamanho < 2) return 0.0;
-
-    int soma = 0;
-
-    for (int i = 1; i < tamanho; i++) 
-    {
-        soma += calcRi(i);
-    }
-
-    return soma;
-}
-
 double JanelaCotacoes::positivoRi()
 {
     if (tamanho < 2) return 0.0;
@@ -70,4 +57,18 @@ double JanelaCotacoes::calcRi(int i)
     int idxAtual = (inicio + i) % tamMax;
 
     return (precos[idxAtual] / precos[idxAnterior]) - 1.0;
+}
+
+void JanelaCotacoes::somasParaMetricas(double &somaNormal, double &somaQuadrados) {
+    somaNormal = 0.0;
+    somaQuadrados = 0.0;
+    
+    if (tamanho < 2) return;
+
+    for (int i = 1; i < tamanho; i++) {
+        double ri = calcRi(i);
+        
+        somaNormal += ri;
+        somaQuadrados += (ri * ri);
+    }
 }
