@@ -13,6 +13,9 @@ int Acao::getId() { return id; }
 
 void Acao::adicionarPreco(double preco) { historico->inserir(preco); }
 
+void Acao::setProximo(Acao* acao) { proximo = acao; }
+Acao* Acao::getProximo() { return proximo; }
+
 double Acao::calcRET()
 {
     if (historico->getTamanho() < 2) return 0.0;
