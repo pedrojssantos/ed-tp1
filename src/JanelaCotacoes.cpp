@@ -1,14 +1,14 @@
 #include "../include/JanelaCotacoes.hpp"
 
-JanelaCotacoes::JanelaCotacoes(int w) : tamMax(w), indiceAtual(0), tamanho(0) {
+JanelaCotacoes::JanelaCotacoes(int w) : tamMax(w), indiceAtual(0), tamanho(0) 
+{
     precos = new double[tamMax];
 }
 
-JanelaCotacoes::~JanelaCotacoes() {
-    delete[] precos;
-}
+JanelaCotacoes::~JanelaCotacoes() { delete[] precos; }
 
-void JanelaCotacoes::inserir(double preco) {
+void JanelaCotacoes::inserir(double preco) 
+{
     precos[indiceAtual] = preco;
     
     indiceAtual = (indiceAtual + 1) % tamMax;
@@ -16,18 +16,21 @@ void JanelaCotacoes::inserir(double preco) {
     if (tamanho < tamMax) tamanho++;
 }
 
-int JanelaCotacoes::getTamanho() {
+int JanelaCotacoes::getTamanho() 
+{
     return tamanho;
 }
 
-double JanelaCotacoes::getMaisRecente() {
+double JanelaCotacoes::getMaisRecente() 
+{
     if (tamanho == 0) return 0.0;
 
     int indiceMaisRecente = (indiceAtual - 1 + tamMax) % tamMax;
     return precos[indiceMaisRecente];
 }
 
-double JanelaCotacoes::getMaisAntigo() {
+double JanelaCotacoes::getMaisAntigo() 
+{
     if (tamanho == 0) return 0.0;
 
     if (tamanho < tamMax) return precos[0];
@@ -35,7 +38,7 @@ double JanelaCotacoes::getMaisAntigo() {
     return precos[indiceAtual];
 }
 
-double JanelaCotacoes::positivoRi()
+double JanelaCotacoes::getSomaRiPositivo()
 {
     if (tamanho < 2) return 0.0;
 
@@ -59,16 +62,34 @@ double JanelaCotacoes::calcRi(int i)
     return (precos[idxAtual] / precos[idxAnterior]) - 1.0;
 }
 
-void JanelaCotacoes::somasParaMetricas(double &somaNormal, double &somaQuadrados) {
-    somaNormal = 0.0;
-    somaQuadrados = 0.0;
-    
+double JanelaCotacoes::getSomaRi()
+{
     if (tamanho < 2) return;
 
-    for (int i = 1; i < tamanho; i++) {
+    double soma = 0.0;
+
+    for (int i = 1; i < tamanho; ++i)
+    {
         double ri = calcRi(i);
-        
-        somaNormal += ri;
-        somaQuadrados += (ri * ri);
+
+        soma += ri;
     }
+
+    return soma;
+}
+
+double JanelaCotacoes::getSomaRiQuadrados()
+{
+    if (tamanho < 2) return;
+
+    double soma = 0.0;
+
+    for (int i = 1; i < tamanho; ++i)
+    {
+        double ri = calcRi(i);
+
+        soma += (ri * ri);
+    }
+
+    return soma;
 }

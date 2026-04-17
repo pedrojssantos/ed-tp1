@@ -6,18 +6,17 @@
 class Acao
 {
     private:
-        int id;
-        int tamMaxHisto;
+        int _id;
+        int _w;
         JanelaCotacoes* historico;
-        Acao* proximo;
 
     public:
-        Acao(int id, int w);
+        Acao();
         ~Acao();
+        
         int getId();
-
-        void setProximo(Acao* acao);
-        Acao* getProximo();
+        void setId(int id);
+        void setW(int w);
 
         void adicionarPreco(double preco);
 

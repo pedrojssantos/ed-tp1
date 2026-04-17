@@ -2,42 +2,38 @@
 
 #include <math.h>
 
-Acao::Acao(int id, int w) : id(id), tamMaxHisto(w) 
-{
-    historico = new JanelaCotacoes(tamMaxHisto);
-}
+Acao::Acao() : _id(-1), _w(-1) , historico(nullptr) {}
 
 Acao::~Acao() { delete historico; }
 
-int Acao::getId() { return id; }
+void Acao::setId(int id) { _id = id; }
+int Acao::getId() { return _id; }
+
+void Acao::setW(int w) { _w = w; }
 
 void Acao::adicionarPreco(double preco) { historico->inserir(preco); }
-
-void Acao::setProximo(Acao* acao) { proximo = acao; }
-Acao* Acao::getProximo() { return proximo; }
 
 double Acao::calcRET()
 {
     if (historico->getTamanho() < 2) return 0.0;
 
-    return (historico->getMaisAntigo() / historico->getMaisRecente()) - 1;
+    return (historico->getMaisRecente() / historico->getMaisAntigo()) - 1;
 }
 
 double Acao::calcAVGRET()
 {
     int n = historico->getTamanho() - 1;
-    double somaRi, somaQuadrados;
-    historico->somasParaMetricas(somaRi, somaQuadrados);
-    double media = somaRi / n;
+    double somaRi = historico->getSomaRi();
 
-    return media;
+    double avgret = somaRi / n;
+
+    return avgret;
 }
 
 double Acao::calcSTAB()
 {
     int n = historico->getTamanho() - 1;
-    double somaRi, somaQuadrados;
-    historico->somasParaMetricas(somaRi, somaQuadrados);
+    double somaQuadrados = historico->getSomaRiQuadrados();
     double media = calcAVGRET();
 
     double somaDiferencasQuadrado = somaQuadrados - (n * (media * media));
@@ -50,7 +46,7 @@ double Acao::calcSTAB()
 double Acao::calcCONS()
 {
     int n = historico->getTamanho() - 1;
-    int qtdPos = historico->positivoRi();
+    int qtdPos = historico->getSomaRiPositivo();
 
     double cons = qtdPos / n;
 
