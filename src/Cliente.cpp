@@ -1,11 +1,14 @@
 #include "../include/Cliente.hpp"
 
-Cliente::Cliente(int id) : id(id)
+Cliente::Cliente() : _id(-1)
 {
     carteira = new Carteira();
 }
 
 Cliente::~Cliente() { delete carteira; }
 
-void Cliente::comprarAcao(int w, int id) { carteira->Inserir(id, w); }
-void Cliente::venderAcao(int id) { carteira->Remover(id); }
+int Cliente::getId() const { return _id; }
+void Cliente::setId(int id) { _id = id; }
+
+void Cliente::comprarAcao(int id) { carteira->inserir(id); }
+void Cliente::venderAcao(int id) { carteira->remover(id); }

@@ -1,20 +1,27 @@
 #ifndef CARTEIRA_HPP
 #define CARTEIRA_HPP
 
-#include "Acao.hpp"
+struct NoCarteira
+{
+    int idAcao;
+    NoCarteira* prox;
+};
 
 class Carteira
 {
     private:
-        Acao* primeiro;
-        Acao* ultimo;
+        NoCarteira* primeiro;
+        NoCarteira* ultimo;
+        int qtdAcoes;
 
     public:
         Carteira();
         ~Carteira();
-        void Inserir(int id, int w);
-        void Remover(int id);
-        void Percorrer();
+
+        int getQtdAcoes() const;
+
+        void inserir(int id);
+        void remover(int id);
 };
 
 #endif

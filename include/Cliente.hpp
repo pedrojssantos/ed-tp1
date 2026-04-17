@@ -6,14 +6,17 @@
 class Cliente 
 {
     private:
-        int id;
+        int _id;
         Carteira* carteira;
         
     public:
-        Cliente(int id);
+        Cliente();
         ~Cliente();
-        int getId();
-        void comprarAcao(int id, int w);
+
+        int getId() const;
+        void setId(int id);
+
+        void comprarAcao(int id);
         void venderAcao(int id);
 };
 

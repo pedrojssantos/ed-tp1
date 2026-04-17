@@ -1,77 +1,66 @@
 #include "../include/Carteira.hpp"
-#include <iostream>
 
-Carteira::Carteira() : primeiro(nullptr), ultimo(nullptr) {}
+Carteira::Carteira() : primeiro(nullptr), ultimo(nullptr), qtdAcoes(0) {}
 
 Carteira::~Carteira()
 {
-    Acao* acaoAtual = primeiro;
-    Acao* proxAcao = nullptr;
+    NoCarteira* noAtual = primeiro;
+    NoCarteira* proxNo = nullptr;
 
-    while (acaoAtual)
+    while (noAtual)
     {
-        proxAcao = acaoAtual->getProximo();
-        delete acaoAtual;
-        acaoAtual = proxAcao;
+        proxNo = noAtual->prox;
+        delete noAtual;
+        noAtual = proxNo;
     }
 }
 
-void Carteira::Inserir(int id, int w)
+int Carteira::getQtdAcoes() const { return qtdAcoes; }
+
+void Carteira::inserir(int id)
 {
-    Acao* novaAcao = new Acao(id, w);
+    NoCarteira* novoNo = new NoCarteira();
+    novoNo->idAcao = id;
+    novoNo->prox = nullptr;
 
     if (!primeiro)
     {
-        primeiro = novaAcao;
+        primeiro = novoNo;
         ultimo = primeiro;
+        qtdAcoes++;
 
         return;
     }
 
-    ultimo->setProximo(novaAcao);
-    ultimo = novaAcao;
+    ultimo->prox = novoNo;
+    ultimo = novoNo;
+    qtdAcoes++;
 }
 
-void Carteira::Remover(int id)
+void Carteira::remover(int id)
 {
-    Acao* acaoAnterior = nullptr;
-    Acao* acaoAtual = primeiro;
+    NoCarteira* noAtual = primeiro;
+    NoCarteira* noAnterior = nullptr;
 
-    while (acaoAtual)
+    while (noAtual)
     {
-        if (acaoAtual->getId() == id) break;
+        if (noAtual->idAcao == id)
+        {
+            if (noAnterior)
+                noAnterior->prox = noAtual->prox;
+            else
+                primeiro = noAtual->prox;
 
-        acaoAnterior = acaoAtual;
+            if (ultimo == noAtual)
+                ultimo = noAnterior;
 
-        acaoAtual = acaoAtual->getProximo();
-    }
+            delete noAtual;
 
-    if (!acaoAtual) return;
+            qtdAcoes++;
+            break;
+        }
 
-    if (acaoAnterior)
-    {
-        acaoAnterior->setProximo(acaoAtual->getProximo());
-    }
-    else
-    {
-        primeiro = acaoAtual->getProximo();
-    }
-
-    if (acaoAtual == ultimo)
-        ultimo = acaoAnterior;
-
-    acaoAtual->setProximo(nullptr);
-
-    delete acaoAtual;
-}
-
-void Carteira::Percorrer()
-{
-    Acao* acaoAtual = primeiro;
-
-    while (acaoAtual)
-    {
-        std::cout << acaoAtual->getId() << std::endl;
-        acaoAtual = acaoAtual->getProximo();
+        noAnterior = noAtual;
+        noAtual = noAtual->prox;
     }
 }
