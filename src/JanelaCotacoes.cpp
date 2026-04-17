@@ -64,7 +64,7 @@ double JanelaCotacoes::calcRi(int i)
 
 double JanelaCotacoes::getSomaRi()
 {
-    if (tamanho < 2) return;
+    if (tamanho < 2) return 0.0;
 
     double soma = 0.0;
 
@@ -80,7 +80,7 @@ double JanelaCotacoes::getSomaRi()
 
 double JanelaCotacoes::getSomaRiQuadrados()
 {
-    if (tamanho < 2) return;
+    if (tamanho < 2) return 0.0;
 
     double soma = 0.0;
 
