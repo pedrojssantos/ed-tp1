@@ -1,7 +1,26 @@
-all: tp1.out
+# compiler
+CC = g++
 
-tp1.out: src/Acao.cpp src/ArvoreBin.cpp src/Carteira.cpp src/Cliente.cpp src/JanelaCotacoes.cpp src/NoArvore.cpp src/main.cpp
-	g++ -std=c++11 src/Acao.cpp src/ArvoreBin.cpp src/Carteira.cpp src/Cliente.cpp src/JanelaCotacoes.cpp src/NoArvore.cpp src/main.cpp -o tp1.out
+# flags = -std=c++11 -O3 -Wall
+CXXFLAGS = -std=c++11 -g -Wall
+
+# folders
+INCLUDE_FOLDER = ./include/
+BIN_FOLDER = ./bin/
+OBJ_FOLDER = ./obj/
+SRC_FOLDER = ./src/
+
+# all sources, objs, and header files
+MAIN = main
+TARGET = tp1.out
+SRC = $(wildcard $(SRC_FOLDER)*.cpp)
+OBJ = $(patsubst $(SRC_FOLDER)%.cpp, $(OBJ_FOLDER)%.o, $(SRC))
+
+$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.cpp
+	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER)
+
+all: $(OBJ)
+	$(CC) $(CXXFLAGS) -o $(BIN_FOLDER)$(TARGET) $(OBJ)
 
 clean:
-	rm -f tp1.out
+	@rm -rf $(OBJ_FOLDER)* $(BIN_FOLDER)*
