@@ -37,8 +37,6 @@ int main()
         {
             token >> w;
 
-            std::cout << "Passei aqui" << std::endl;
-
             while (token >> metrica)
             {
                 metricasGlobais += metrica + " ";
@@ -48,8 +46,6 @@ int main()
         {
             int idAcao = 0;
             token >> idAcao;
-
-            std::cout << "Passei aqui" << std::endl;
         
             if (idAcao < N)
             {
@@ -61,8 +57,6 @@ int main()
         {
             int idCliente = 0;
             token >> idCliente;
-
-            std::cout << "Passei aqui" << std::endl;
 
             if (idCliente < u)
             {
@@ -82,8 +76,6 @@ int main()
             int idCliente = 0, idAcao = 0;
             token >> idCliente >> idAcao;
 
-            std::cout << "Passei aqui" << std::endl;
-
             vetorGlobalClientes[idCliente].comprarAcao(idAcao);
         }
         else if (comando == "V")
@@ -91,14 +83,11 @@ int main()
             int idCliente = 0, idAcao = 0;
             token >> idCliente >> idAcao;
 
-            std::cout << "Passei aqui" << std::endl;
-
             vetorGlobalClientes[idCliente].venderAcao(idAcao);
             
         }
         else if (comando == "Q")
         {
-            std::cout << "Passei aqui" << std::endl;
             int idConsulta = 0, idCliente = 0;
             int numAcoes = 0, numMetricas = 0;
             token >> idConsulta >> idCliente >> numAcoes >> numMetricas;
@@ -244,16 +233,6 @@ int main()
 
             delete[] melhores;
             delete[] piores;
-
-            // //R <id_consulta> <tipo> <posicao> <acao> <pontuacao>, 
-        }
-        else if (comando == "S")
-        {
-            break;
-        }
-        else
-        {
-            std::cout << "Nenhum comando denominado " + comando << std::endl;
         }
 
         token.clear();
