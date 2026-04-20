@@ -7,17 +7,14 @@ class Cliente
 {
     private:
         int _id;
-        Carteira* carteira;
+        Carteira* _carteira;
         
     public:
         Cliente();
         ~Cliente();
-
-        int getId() const;
         void setId(int id);
-
+        int getId() const;
         const Carteira& getCarteira() const;
-
         void comprarAcao(int id);
         void venderAcao(int id);
 };
