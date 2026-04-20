@@ -3,25 +3,23 @@
 
 class JanelaCotacoes {
     private:
-        double* precos;
-        int tamMax;
-        int tamanho;
-        int indiceAtual;
+        double* _precos;
+        int _w;
+        int _tamanho;
+        int _indiceAtual;
 
-        double calcRi(int i);
+        double calcRi(int i) const;
 
     public:
         JanelaCotacoes(int w);
         ~JanelaCotacoes();
-
         void inserir(double preco);
-
-        int getTamanho();
-        double getMaisRecente();
-        double getMaisAntigo();
-        double getSomaRiPositivo();
-        double getSomaRi();
-        double getSomaRiQuadrados();
+        int getTamanho() const;
+        double getMaisRecente() const;
+        double getMaisAntigo() const;
+        double getSomaRiPositivo() const;
+        double getSomaRi() const;
+        double getSomaRiQuadrados() const;
 };
 
 #endif

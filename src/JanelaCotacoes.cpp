@@ -1,50 +1,53 @@
 #include "JanelaCotacoes.hpp"
 
-JanelaCotacoes::JanelaCotacoes(int w) : tamMax(w), tamanho(0), indiceAtual(0)
+JanelaCotacoes::JanelaCotacoes(int w) : _w(w), _tamanho(0), _indiceAtual(0)
 {
-    precos = new double[tamMax];
+    _precos = new double[_w];
 }
 
-JanelaCotacoes::~JanelaCotacoes() { delete[] precos; }
+JanelaCotacoes::~JanelaCotacoes() 
+{
+    delete[] _precos;
+}
 
 void JanelaCotacoes::inserir(double preco) 
 {
-    precos[indiceAtual] = preco;
+    _precos[_indiceAtual] = preco;
     
-    indiceAtual = (indiceAtual + 1) % tamMax;
+    _indiceAtual = (_indiceAtual + 1) % _w;
 
-    if (tamanho < tamMax) tamanho++;
+    if (_tamanho < _w) _tamanho++;
 }
 
-int JanelaCotacoes::getTamanho() 
+int JanelaCotacoes::getTamanho() const
 {
-    return tamanho;
+    return _tamanho;
 }
 
-double JanelaCotacoes::getMaisRecente() 
+double JanelaCotacoes::getMaisRecente() const
 {
-    if (tamanho == 0) return 0.0;
+    if (_tamanho == 0) return 0.0;
 
-    int indiceMaisRecente = (indiceAtual - 1 + tamMax) % tamMax;
-    return precos[indiceMaisRecente];
+    int indiceMaisRecente = (_indiceAtual - 1 + _w) % _w;
+    return _precos[indiceMaisRecente];
 }
 
-double JanelaCotacoes::getMaisAntigo() 
+double JanelaCotacoes::getMaisAntigo() const
 {
-    if (tamanho == 0) return 0.0;
+    if (_tamanho == 0) return 0.0;
 
-    if (tamanho < tamMax) return precos[0];
+    if (_tamanho < _w) return _precos[0];
     
-    return precos[indiceAtual];
+    return _precos[_indiceAtual];
 }
 
-double JanelaCotacoes::getSomaRiPositivo()
+double JanelaCotacoes::getSomaRiPositivo() const
 {
-    if (tamanho < 2) return 0.0;
+    if (_tamanho < 2) return 0.0;
 
     int contador = 0;
 
-    for (int i = 1; i < tamanho; i++)
+    for (int i = 1; i < _tamanho; i++)
     {
         if (calcRi(i) > 0) contador++;
     }
@@ -52,23 +55,23 @@ double JanelaCotacoes::getSomaRiPositivo()
     return contador;
 }
 
-double JanelaCotacoes::calcRi(int i)
+double JanelaCotacoes::calcRi(int i) const
 {
-    int inicio = (tamanho < tamMax) ? 0 : indiceAtual;
+    int inicio = (_tamanho < _w) ? 0 : _indiceAtual;
         
-    int idxAnterior = (inicio + i - 1) % tamMax;
-    int idxAtual = (inicio + i) % tamMax;
+    int idxAnterior = (inicio + i - 1) % _w;
+    int idxAtual = (inicio + i) % _w;
 
-    return (precos[idxAtual] / precos[idxAnterior]) - 1.0;
+    return (_precos[idxAtual] / _precos[idxAnterior]) - 1.0;
 }
 
-double JanelaCotacoes::getSomaRi()
+double JanelaCotacoes::getSomaRi() const
 {
-    if (tamanho < 2) return 0.0;
+    if (_tamanho < 2) return 0.0;
 
     double soma = 0.0;
 
-    for (int i = 1; i < tamanho; ++i)
+    for (int i = 1; i < _tamanho; ++i)
     {
         double ri = calcRi(i);
 
@@ -78,13 +81,13 @@ double JanelaCotacoes::getSomaRi()
     return soma;
 }
 
-double JanelaCotacoes::getSomaRiQuadrados()
+double JanelaCotacoes::getSomaRiQuadrados() const
 {
-    if (tamanho < 2) return 0.0;
+    if (_tamanho < 2) return 0.0;
 
     double soma = 0.0;
 
-    for (int i = 1; i < tamanho; ++i)
+    for (int i = 1; i < _tamanho; ++i)
     {
         double ri = calcRi(i);
 
