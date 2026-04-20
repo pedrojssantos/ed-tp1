@@ -1,4 +1,4 @@
-#include "../include/JanelaCotacoes.hpp"
+#include "JanelaCotacoes.hpp"
 
 JanelaCotacoes::JanelaCotacoes(int w) : tamMax(w), tamanho(0), indiceAtual(0)
 {

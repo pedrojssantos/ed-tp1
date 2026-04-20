@@ -1,4 +1,4 @@
-#include "../include/Ordenador.hpp"
+#include "Ordenador.hpp"
 
 #include <iostream>
 

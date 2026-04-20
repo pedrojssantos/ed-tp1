@@ -1,4 +1,4 @@
-#include "../include/Carteira.hpp"
+#include "Carteira.hpp"
 
 Carteira::Carteira() : primeiro(nullptr), ultimo(nullptr), qtdAcoes(0) {}
 

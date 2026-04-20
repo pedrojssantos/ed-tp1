@@ -1,8 +1,8 @@
-#include "../include/Cliente.hpp"
-#include "../include/Carteira.hpp"
-#include "../include/Acao.hpp"
-#include "../include/Resultado.hpp"
-#include "../include/Ordenador.hpp"
+#include "Cliente.hpp"
+#include "Carteira.hpp"
+#include "Acao.hpp"
+#include "Resultado.hpp"
+#include "Ordenador.hpp"
 
 #include <iostream>
 #include <sstream>
