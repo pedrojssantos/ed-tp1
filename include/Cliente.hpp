@@ -16,6 +16,8 @@ class Cliente
         int getId() const;
         void setId(int id);
 
+        const Carteira& getCarteira() const;
+
         void comprarAcao(int id);
         void venderAcao(int id);
 };

@@ -10,5 +10,10 @@ Cliente::~Cliente() { delete carteira; }
 int Cliente::getId() const { return _id; }
 void Cliente::setId(int id) { _id = id; }
 
+const Carteira& Cliente::getCarteira() const
+{
+    return *carteira;
+}
+
 void Cliente::comprarAcao(int id) { carteira->inserir(id); }
 void Cliente::venderAcao(int id) { carteira->remover(id); }
