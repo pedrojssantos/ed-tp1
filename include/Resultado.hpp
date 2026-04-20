@@ -3,9 +3,9 @@
 
 struct Resultado
 {
-    int idAcao;
-    double pontuacao;
-    int posicaoGlobal;
+    int _idAcao;
+    double _pontuacao;
+    int _posicaoGlobal;
 };
 
 #endif

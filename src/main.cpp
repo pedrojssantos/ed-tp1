@@ -116,19 +116,19 @@ int main()
             {
                 for (int i = 0; i < N; ++i) 
                 {
-                    tempMetrica[i].idAcao = vetorGlobalAcoes[i].getId();
+                    tempMetrica[i]._idAcao = vetorGlobalAcoes[i].getId();
                     
                     if (metricasConsulta[j] == "RET") {
-                        tempMetrica[i].pontuacao = vetorGlobalAcoes[i].calcRET();
+                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i].calcRET();
                     } 
                     else if (metricasConsulta[j] == "AVGRET") {
-                        tempMetrica[i].pontuacao = vetorGlobalAcoes[i].calcAVGRET();
+                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i].calcAVGRET();
                     }
                     else if (metricasConsulta[j] == "STAB") {
-                        tempMetrica[i].pontuacao = vetorGlobalAcoes[i].calcSTAB();
+                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i].calcSTAB();
                     }
                     else if (metricasConsulta[j] == "CONS") {
-                        tempMetrica[i].pontuacao = vetorGlobalAcoes[i].calcCONS();
+                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i].calcCONS();
                     }
                 }
 
@@ -136,7 +136,7 @@ int main()
 
                 for (int pos = 0; pos < N; ++pos) 
                 {
-                    int idDestaAcao = tempMetrica[pos].idAcao;
+                    int idDestaAcao = tempMetrica[pos]._idAcao;
                     double pontosDaPosicao = (N - pos); 
                     
                     placarFinal[idDestaAcao] += (pontosDaPosicao * pesos[j]);
@@ -145,15 +145,15 @@ int main()
 
             for (int i = 0; i < N; ++i) 
             {
-                ranking[i].idAcao = vetorGlobalAcoes[i].getId();
-                ranking[i].pontuacao = placarFinal[ranking[i].idAcao];
+                ranking[i]._idAcao = vetorGlobalAcoes[i].getId();
+                ranking[i]._pontuacao = placarFinal[ranking[i]._idAcao];
             }
 
             Ordenador::ordenar(ranking, N);
 
             for (int j = 0; j < N; ++j)
             {
-                ranking[j].posicaoGlobal = j;
+                ranking[j]._posicaoGlobal = j;
             }
 
             delete[] tempMetrica;
@@ -176,7 +176,7 @@ int main()
 
                 for (int i = 0; i < N; ++i)
                 {
-                    if (cliente.getCarteira().buscar(ranking[i].idAcao))
+                    if (cliente.getCarteira().buscar(ranking[i]._idAcao))
                     {
                         melhores[k] = ranking[i];
                         ++k;
@@ -195,7 +195,7 @@ int main()
                 {
                     if (contMelhores == numAcoes) break;
 
-                    if (cliente.getCarteira().buscar(ranking[i].idAcao))
+                    if (cliente.getCarteira().buscar(ranking[i]._idAcao))
                     {
                         melhores[contMelhores] = ranking[i];
                         contMelhores++;
@@ -207,7 +207,7 @@ int main()
                 for (int i = N - 1; i >= 0; --i) 
                 {
                     if (contPiores == numAcoes) break;
-                    if (cliente.getCarteira().buscar(ranking[i].idAcao))
+                    if (cliente.getCarteira().buscar(ranking[i]._idAcao))
                     {
                         piores[contPiores] = ranking[i]; 
                         contPiores++;
@@ -219,14 +219,14 @@ int main()
             {
                 std::cout << "R " << idConsulta 
                 << " M " << i 
-                << " " << melhores[i].idAcao << " " << melhores[i].pontuacao << std::endl;
+                << " " << melhores[i]._idAcao << " " << melhores[i]._pontuacao << std::endl;
             }
 
             for (int i = 0; i < nP; ++i)
             {
                 std::cout << "R " << idConsulta 
                 << " P " << i
-                << " " << piores[i].idAcao << " " << piores[i].pontuacao << std::endl;
+                << " " << piores[i]._idAcao << " " << piores[i]._pontuacao << std::endl;
             }
 
 

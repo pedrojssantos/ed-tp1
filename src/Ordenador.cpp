@@ -43,7 +43,7 @@ Resultado* Ordenador::ordernarRecursivamente(Resultado* res, int N)
             temp3[j] = temp1[v];
             ++v;
         }
-        else if (temp1[v].pontuacao >= temp2[u].pontuacao) {
+        else if (temp1[v]._pontuacao >= temp2[u]._pontuacao) {
             temp3[j] = temp1[v];
             ++v;
         }
