@@ -56,11 +56,31 @@ void Carteira::remover(int id)
 
             delete noAtual;
 
-            qtdAcoes++;
+            --qtdAcoes;
             break;
         }
 
         noAnterior = noAtual;
         noAtual = noAtual->prox;
     }
+}
+
+bool Carteira::buscar(int id) const
+{
+    NoCarteira* noAtual = primeiro;
+
+    bool existeId = false;
+
+    while (noAtual)
+    {
+        if (noAtual->idAcao == id)
+        {
+            existeId = true;
+            break;
+        }
+        else
+            noAtual = noAtual->prox;
+    }
+
+    return existeId;
 }

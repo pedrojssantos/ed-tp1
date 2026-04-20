@@ -22,6 +22,7 @@ class Carteira
 
         void inserir(int id);
         void remover(int id);
+        bool buscar(int id) const;
 };
 
 #endif
