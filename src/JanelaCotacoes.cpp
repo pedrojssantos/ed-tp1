@@ -1,6 +1,6 @@
 #include "../include/JanelaCotacoes.hpp"
 
-JanelaCotacoes::JanelaCotacoes(int w) : tamMax(w), indiceAtual(0), tamanho(0) 
+JanelaCotacoes::JanelaCotacoes(int w) : tamMax(w), tamanho(0), indiceAtual(0)
 {
     precos = new double[tamMax];
 }
