@@ -1,85 +1,88 @@
 #include "Carteira.hpp"
 
-Carteira::Carteira() : primeiro(nullptr), ultimo(nullptr), qtdAcoes(0) {}
+Carteira::Carteira() : _primeiro(nullptr), _ultimo(nullptr), _qtdAcoes(0) {}
 
 Carteira::~Carteira()
 {
-    NoCarteira* noAtual = primeiro;
+    NoCarteira* noAtual = _primeiro;
     NoCarteira* proxNo = nullptr;
 
     while (noAtual)
     {
-        proxNo = noAtual->prox;
+        proxNo = noAtual->_prox;
         delete noAtual;
         noAtual = proxNo;
     }
 }
 
-int Carteira::getQtdAcoes() const { return qtdAcoes; }
+int Carteira::getQtdAcoes() const 
+{
+    return _qtdAcoes;
+}
 
 void Carteira::inserir(int id)
 {
     NoCarteira* novoNo = new NoCarteira();
-    novoNo->idAcao = id;
-    novoNo->prox = nullptr;
+    novoNo->_idAcao = id;
+    novoNo->_prox = nullptr;
 
-    if (!primeiro)
+    if (!_primeiro)
     {
-        primeiro = novoNo;
-        ultimo = primeiro;
-        qtdAcoes++;
+        _primeiro = novoNo;
+        _ultimo = _primeiro;
+        _qtdAcoes++;
 
         return;
     }
 
-    ultimo->prox = novoNo;
-    ultimo = novoNo;
-    qtdAcoes++;
+    _ultimo->_prox = novoNo;
+    _ultimo = novoNo;
+    _qtdAcoes++;
 }
 
 void Carteira::remover(int id)
 {
-    NoCarteira* noAtual = primeiro;
+    NoCarteira* noAtual = _primeiro;
     NoCarteira* noAnterior = nullptr;
 
     while (noAtual)
     {
-        if (noAtual->idAcao == id)
+        if (noAtual->_idAcao == id)
         {
             if (noAnterior)
-                noAnterior->prox = noAtual->prox;
+                noAnterior->_prox = noAtual->_prox;
             else
-                primeiro = noAtual->prox;
+                _primeiro = noAtual->_prox;
 
-            if (ultimo == noAtual)
-                ultimo = noAnterior;
+            if (_ultimo == noAtual)
+                _ultimo = noAnterior;
 
             delete noAtual;
 
-            --qtdAcoes;
+            --_qtdAcoes;
             break;
         }
 
         noAnterior = noAtual;
-        noAtual = noAtual->prox;
+        noAtual = noAtual->_prox;
     }
 }
 
 bool Carteira::buscar(int id) const
 {
-    NoCarteira* noAtual = primeiro;
+    NoCarteira* noAtual = _primeiro;
 
     bool existeId = false;
 
     while (noAtual)
     {
-        if (noAtual->idAcao == id)
+        if (noAtual->_idAcao == id)
         {
             existeId = true;
             break;
         }
         else
-            noAtual = noAtual->prox;
+            noAtual = noAtual->_prox;
     }
 
     return existeId;

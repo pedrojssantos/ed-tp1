@@ -3,23 +3,21 @@
 
 struct NoCarteira
 {
-    int idAcao;
-    NoCarteira* prox;
+    int _idAcao;
+    NoCarteira* _prox;
 };
 
 class Carteira
 {
     private:
-        NoCarteira* primeiro;
-        NoCarteira* ultimo;
-        int qtdAcoes;
+        NoCarteira* _primeiro;
+        NoCarteira* _ultimo;
+        int _qtdAcoes;
 
     public:
         Carteira();
         ~Carteira();
-
         int getQtdAcoes() const;
-
         void inserir(int id);
         void remover(int id);
         bool buscar(int id) const;
