@@ -49,8 +49,7 @@ int main()
         
             if (idAcao < N)
             {
-                vetorGlobalAcoes[idAcao].setId(idAcao);
-                vetorGlobalAcoes[idAcao].setW(w);
+                vetorGlobalAcoes[idAcao].inicializar(idAcao, w);
             }
         }
         else if (comando == "U")

@@ -8,22 +8,18 @@ class Acao
     private:
         int _id;
         int _w;
-        JanelaCotacoes* historico;
+        JanelaCotacoes* _historico;
 
     public:
         Acao();
         ~Acao();
-        
-        int getId();
-        void setId(int id);
-        void setW(int w);
-
+        void inicializar(int id, int w);
+        int getId() const;
         void adicionarPreco(double preco);
-
-        double calcRET();
-        double calcAVGRET();
-        double calcSTAB();
-        double calcCONS();
+        double calcRET() const;
+        double calcAVGRET() const;
+        double calcSTAB() const;
+        double calcCONS() const;
 };
 
 #endif

@@ -2,48 +2,55 @@
 
 #include <math.h>
 
-Acao::Acao() : _id(-1), _w(-1) , historico(nullptr) {}
+Acao::Acao() : _id(-1), _w(-1) , _historico(nullptr) {}
 
-Acao::~Acao() { delete historico; }
+Acao::~Acao() 
+{
+    delete _historico;
+}
 
-void Acao::setId(int id) { _id = id; }
-int Acao::getId() { return _id; }
-
-void Acao::setW(int w) { 
+void Acao::inicializar(int id, int w)
+{
+    _id = id;
     _w = w;
-    historico = new JanelaCotacoes(_w);
+    _historico = new JanelaCotacoes(_w);
 }
 
-void Acao::adicionarPreco(double preco) { historico->inserir(preco); }
-
-double Acao::calcRET()
+int Acao::getId() const
 {
-    if (this->historico == nullptr) return 0.0;
-    if (historico->getTamanho() < 2) return 0.0;
-
-    return (historico->getMaisRecente() / historico->getMaisAntigo()) - 1;
+    return _id;
 }
 
-double Acao::calcAVGRET()
+void Acao::adicionarPreco(double preco) 
 {
-    if (this->historico == nullptr) return 0.0;
-    if (historico->getTamanho() < 2) return 0.0;
+    _historico->inserir(preco); 
+}
 
-    int n = historico->getTamanho() - 1;
-    double somaRi = historico->getSomaRi();
+double Acao::calcRET() const
+{
+    if (!_historico || _historico->getTamanho() < 2) return 0.0;
+
+    return (_historico->getMaisRecente() / _historico->getMaisAntigo()) - 1;
+}
+
+double Acao::calcAVGRET() const
+{
+    if (!_historico || _historico->getTamanho() < 2) return 0.0;
+
+    int n = _historico->getTamanho() - 1;
+    double somaRi = _historico->getSomaRi();
 
     double avgret = somaRi / n;
 
     return avgret;
 }
 
-double Acao::calcSTAB()
+double Acao::calcSTAB() const
 {
-    if (this->historico == nullptr) return 0.0;
-    if (historico->getTamanho() < 2) return 0.0;
+    if (!_historico || _historico->getTamanho() < 2) return 0.0;
 
-    int n = historico->getTamanho() - 1;
-    double somaQuadrados = historico->getSomaRiQuadrados();
+    int n = _historico->getTamanho() - 1;
+    double somaQuadrados = _historico->getSomaRiQuadrados();
     double media = calcAVGRET();
 
     double somaDiferencasQuadrado = somaQuadrados - (n * (media * media));
@@ -53,13 +60,12 @@ double Acao::calcSTAB()
     return 1.0 / (1.0 + vol);
 }
 
-double Acao::calcCONS()
+double Acao::calcCONS() const
 {
-    if (this->historico == nullptr) return 0.0;
-    if (historico->getTamanho() < 2) return 0.0;
+    if (!_historico || _historico->getTamanho() < 2) return 0.0;
 
-    int n = historico->getTamanho() - 1;
-    int qtdPos = historico->getSomaRiPositivo();
+    int n = _historico->getTamanho() - 1;
+    int qtdPos = _historico->getSomaRiPositivo();
 
     double cons = qtdPos / n;
 
