@@ -9,58 +9,92 @@
 
 int main()
 {
+    int capAcoes = 10;
+    int capClientes = 10;
+
+    Acao** vetorGlobalAcoes = new Acao*[capAcoes];
+    for (int i = 0; i < capAcoes; ++i) vetorGlobalAcoes[i] = nullptr;
+
+    Cliente** vetorGlobalClientes = new Cliente*[capClientes];
+    for (int i = 0; i < capClientes; ++i) vetorGlobalClientes[i] = nullptr;
+
     std::string acao = "";
     std::string comando = "";
-    std::string historicoComandos = "";
     std::stringstream token;
-    std::string metrica = "";
-    std::string metricasGlobais = "";
     int w = 0;
-    int N = 0, u = 0;
-
-    std::getline(std::cin, acao);
-    token.str(acao);
-    token >> N >> u;
-    token.clear();
-
-    Acao* vetorGlobalAcoes = new Acao[N];
-    Cliente* vetorGlobalClientes = new Cliente[u];
-    Resultado* ranking = new Resultado[N];
+    int N = 0; 
+    int u = 0;
 
     while (std::getline(std::cin, acao))
     {
         token.str(acao);
         token >> comando;
-        historicoComandos += comando + " ";
 
         if (comando == "M")
         {
             token >> w;
-
-            while (token >> metrica)
-            {
-                metricasGlobais += metrica + " ";
-            }
         }
         else if (comando == "A")
         {
             int idAcao = 0;
             token >> idAcao;
         
-            if (idAcao < N)
+            if (idAcao >= capAcoes) 
             {
-                vetorGlobalAcoes[idAcao].inicializar(idAcao, w);
+                int novaCap = capAcoes * 2;
+                while (idAcao >= novaCap) novaCap *= 2;
+
+                Acao** vetorAux = new Acao*[novaCap];
+                
+                for (int i = 0; i < novaCap; ++i) 
+                {
+                    if (i < capAcoes) vetorAux[i] = vetorGlobalAcoes[i];
+                    else vetorAux[i] = nullptr;
+                }
+
+                delete[] vetorGlobalAcoes;
+                vetorGlobalAcoes = vetorAux;
+                capAcoes = novaCap;
             }
+
+            if (!vetorGlobalAcoes[idAcao]) 
+            {
+                vetorGlobalAcoes[idAcao] = new Acao();
+                vetorGlobalAcoes[idAcao]->inicializar(idAcao, w);
+            }
+
+            if (idAcao >= N) N = idAcao + 1;
         }
         else if (comando == "U")
         {
             int idCliente = 0;
             token >> idCliente;
 
-            if (idCliente < u)
+            if (idCliente >= capClientes) 
             {
-                vetorGlobalClientes[idCliente].setId(idCliente);
+                int novaCap = capClientes * 2;
+                while (idCliente >= novaCap) novaCap *= 2;
+
+                Cliente** vetorAux = new Cliente*[novaCap];
+
+                for (int i = 0; i < novaCap; ++i) 
+                {
+                    if (i < capClientes) vetorAux[i] = vetorGlobalClientes[i];
+                    else vetorAux[i] = nullptr;
+                }
+
+                delete[] vetorGlobalClientes;
+                vetorGlobalClientes = vetorAux;
+                capClientes = novaCap;
             }
+
+            if (!vetorGlobalClientes[idCliente]) 
+            {
+                vetorGlobalClientes[idCliente] = new Cliente();
+                vetorGlobalClientes[idCliente]->setId(idCliente);
+            }
+
+            if (idCliente >= u) u = idCliente + 1;
         }
         else if (comando == "P")
         {
@@ -68,22 +102,21 @@ int main()
             double precoAcao = 0;
             token >> idAcao >> precoAcao;
 
-            vetorGlobalAcoes[idAcao].adicionarPreco(precoAcao);
+            vetorGlobalAcoes[idAcao]->adicionarPreco(precoAcao);
         }
         else if (comando == "B")
         {
             int idCliente = 0, idAcao = 0;
             token >> idCliente >> idAcao;
 
-            vetorGlobalClientes[idCliente].comprarAcao(idAcao);
+            vetorGlobalClientes[idCliente]->comprarAcao(idAcao);
         }
         else if (comando == "V")
         {
             int idCliente = 0, idAcao = 0;
             token >> idCliente >> idAcao;
 
-            vetorGlobalClientes[idCliente].venderAcao(idAcao);
-            
+            vetorGlobalClientes[idCliente]->venderAcao(idAcao);
         }
         else if (comando == "Q")
         {
@@ -102,11 +135,14 @@ int main()
             {
                 metricasConsulta[qtdMetricas] = metrica;
                 pesos[qtdMetricas] = peso;
-                qtdMetricas++;
+                ++qtdMetricas;
             }
 
+            Resultado* ranking = new Resultado[N];
             double* placarFinal = new double[N];
-            for (int i = 0; i < N; ++i) {
+            
+            for (int i = 0; i < N; ++i) 
+            {
                 placarFinal[i] = 0.0;
             }
 
@@ -116,19 +152,23 @@ int main()
             {
                 for (int i = 0; i < N; ++i) 
                 {
-                    tempMetrica[i]._idAcao = vetorGlobalAcoes[i].getId();
+                    tempMetrica[i]._idAcao = vetorGlobalAcoes[i]->getId();
                     
-                    if (metricasConsulta[j] == "RET") {
-                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i].calcRET();
+                    if (metricasConsulta[j] == "RET") 
+                    {
+                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i]->calcRET();
                     } 
-                    else if (metricasConsulta[j] == "AVGRET") {
-                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i].calcAVGRET();
+                    else if (metricasConsulta[j] == "AVGRET") 
+                    {
+                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i]->calcAVGRET();
                     }
-                    else if (metricasConsulta[j] == "STAB") {
-                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i].calcSTAB();
+                    else if (metricasConsulta[j] == "STAB") 
+                    {
+                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i]->calcSTAB();
                     }
-                    else if (metricasConsulta[j] == "CONS") {
-                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i].calcCONS();
+                    else if (metricasConsulta[j] == "CONS") 
+                    {
+                        tempMetrica[i]._pontuacao = vetorGlobalAcoes[i]->calcCONS();
                     }
                 }
 
@@ -145,7 +185,7 @@ int main()
 
             for (int i = 0; i < N; ++i) 
             {
-                ranking[i]._idAcao = vetorGlobalAcoes[i].getId();
+                ranking[i]._idAcao = vetorGlobalAcoes[i]->getId();
                 ranking[i]._pontuacao = placarFinal[ranking[i]._idAcao];
             }
 
@@ -164,8 +204,8 @@ int main()
 
             int nM = 0, nP = 0;
 
-            Cliente& cliente = vetorGlobalClientes[idCliente];
-            int numAcoesCliente = cliente.getCarteira().getQtdAcoes();
+            Cliente* cliente = vetorGlobalClientes[idCliente];
+            int numAcoesCliente = cliente->getCarteira().getQtdAcoes();
 
             if (numAcoesCliente < numAcoes)
             {
@@ -176,7 +216,7 @@ int main()
 
                 for (int i = 0; i < N; ++i)
                 {
-                    if (cliente.getCarteira().buscar(ranking[i]._idAcao))
+                    if (cliente->getCarteira().buscar(ranking[i]._idAcao))
                     {
                         melhores[k] = ranking[i];
                         ++k;
@@ -191,14 +231,15 @@ int main()
                 piores = new Resultado[nP];
 
                 int contMelhores = 0;
+
                 for (int i = 0; i < N; ++i)
                 {
                     if (contMelhores == numAcoes) break;
 
-                    if (cliente.getCarteira().buscar(ranking[i]._idAcao))
+                    if (cliente->getCarteira().buscar(ranking[i]._idAcao))
                     {
                         melhores[contMelhores] = ranking[i];
-                        contMelhores++;
+                        ++contMelhores;
                     }
                 }
 
@@ -207,10 +248,11 @@ int main()
                 for (int i = N - 1; i >= 0; --i) 
                 {
                     if (contPiores == numAcoes) break;
-                    if (cliente.getCarteira().buscar(ranking[i]._idAcao))
+
+                    if (cliente->getCarteira().buscar(ranking[i]._idAcao))
                     {
                         piores[contPiores] = ranking[i]; 
-                        contPiores++;
+                        ++contPiores;
                     }
                 }
             }
@@ -229,18 +271,25 @@ int main()
                 << " " << piores[i]._idAcao << " " << piores[i]._pontuacao << std::endl;
             }
 
-
             delete[] melhores;
             delete[] piores;
+            delete[] ranking;
         }
 
         token.clear();
         comando = "";
     }
 
+    for (int i = 0; i < capAcoes; ++i) {
+        if (vetorGlobalAcoes[i]) delete vetorGlobalAcoes[i];
+    }
+
+    for (int i = 0; i < capClientes; ++i) {
+        if (vetorGlobalClientes[i]) delete vetorGlobalClientes[i];
+    }
+
     delete[] vetorGlobalAcoes;
     delete[] vetorGlobalClientes;
-    delete[] ranking;
 
     return 0;
 }
