@@ -35,19 +35,23 @@ Resultado* Ordenador::ordernarRecursivamente(Resultado* res, int N)
 
     for (int j = 0; j < n1 + n2; ++j)
     {
-        if (v >= n1) {
+        if (v >= n1) 
+        {
             temp3[j] = temp2[u];
             ++u;
         }
-        else if (u >= n2) {
+        else if (u >= n2) 
+        {
             temp3[j] = temp1[v];
             ++v;
         }
-        else if (temp1[v]._pontuacao >= temp2[u]._pontuacao) {
+        else if (temp1[v]._pontuacao >= temp2[u]._pontuacao) 
+        {
             temp3[j] = temp1[v];
             ++v;
         }
-        else {
+        else 
+        {
             temp3[j] = temp2[u];
             ++u;
         }
