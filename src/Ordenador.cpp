@@ -1,7 +1,5 @@
 #include "Ordenador.hpp"
 
-#include <iostream>
-
 void Ordenador::ordenar(Resultado* res, int N)
 {
     Resultado* vetorOrdenado = ordernarRecursivamente(res, N);
