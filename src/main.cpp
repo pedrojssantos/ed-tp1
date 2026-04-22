@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 
 int main()
 {
@@ -261,14 +262,16 @@ int main()
             {
                 std::cout << "R " << idConsulta 
                 << " M " << i 
-                << " " << melhores[i]._idAcao << " " << melhores[i]._pontuacao << std::endl;
+                << " " << melhores[i]._idAcao << " " 
+                << std::fixed << std::setprecision(2) << melhores[i]._pontuacao << std::endl;
             }
 
             for (int i = 0; i < nP; ++i)
             {
                 std::cout << "R " << idConsulta 
                 << " P " << i
-                << " " << piores[i]._idAcao << " " << piores[i]._pontuacao << std::endl;
+                << " " << piores[i]._idAcao << " " 
+                << std::fixed << std::setprecision(2) << piores[i]._pontuacao << std::endl;
             }
 
             delete[] melhores;
