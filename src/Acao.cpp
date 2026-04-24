@@ -1,6 +1,6 @@
 #include "Acao.hpp"
-
-#include <math.h>
+#include <cmath>
+#include <algorithm>
 
 Acao::Acao() : _id(-1), _w(-1) , _historico(nullptr) {}
 
@@ -30,7 +30,7 @@ double Acao::calcRET() const
 {
     if (!_historico || _historico->getTamanho() < 2) return 0.0;
 
-    return (_historico->getMaisRecente() / _historico->getMaisAntigo()) - 1;
+    return (_historico->getMaisRecente() / _historico->getMaisAntigo()) - 1.0;
 }
 
 double Acao::calcAVGRET() const
@@ -40,7 +40,7 @@ double Acao::calcAVGRET() const
     int n = _historico->getTamanho() - 1;
     double somaRi = _historico->getSomaRi();
 
-    double avgret = somaRi / n;
+    double avgret = (double)(somaRi) / (double)(n); 
 
     return avgret;
 }
@@ -55,7 +55,9 @@ double Acao::calcSTAB() const
 
     double somaDiferencasQuadrado = somaQuadrados - (n * (media * media));
 
-    double vol = std::sqrt(somaDiferencasQuadrado / n);
+    somaDiferencasQuadrado = std::max(0.0, somaDiferencasQuadrado);
+
+    double vol = std::sqrt((double)(somaDiferencasQuadrado) / (double)(n));
 
     return 1.0 / (1.0 + vol);
 }
@@ -67,7 +69,7 @@ double Acao::calcCONS() const
     int n = _historico->getTamanho() - 1;
     int qtdPos = _historico->getSomaRiPositivo();
 
-    double cons = qtdPos / n;
+    double cons = (double)(qtdPos) / (double)(n);
 
     return cons;
 }
