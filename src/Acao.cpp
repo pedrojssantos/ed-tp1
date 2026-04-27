@@ -1,6 +1,5 @@
 #include "Acao.hpp"
 #include <cmath>
-#include <algorithm>
 
 Acao::Acao() : _id(-1), _w(-1) , _historico(nullptr) {}
 
@@ -54,8 +53,6 @@ double Acao::calcSTAB() const
     double media = calcAVGRET();
 
     double somaDiferencasQuadrado = somaQuadrados - (n * (media * media));
-
-    somaDiferencasQuadrado = std::max(0.0, somaDiferencasQuadrado);
 
     double vol = std::sqrt((double)(somaDiferencasQuadrado) / (double)(n));
 
