@@ -85,7 +85,7 @@ int main()
             int idCliente = 0;
             token >> idCliente;
 
-            // Realoca o vetor de clientes dobrando a capacidade se necessário
+            // Realoca o vetor de clientes dobrando a capacidade se necessario
             if (idCliente >= capClientes)
             {
                 int novaCap = capClientes * 2;
