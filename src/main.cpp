@@ -11,9 +11,11 @@
 
 int main()
 {
+    // Define as capacidades iniciais para os vetores globais
     int capAcoes = 10;
     int capClientes = 10;
 
+    // Define os vetores globais
     Acao** vetorGlobalAcoes = new Acao*[capAcoes];
     for (int i = 0; i < capAcoes; ++i) vetorGlobalAcoes[i] = nullptr;
 
@@ -26,10 +28,12 @@ int main()
     int N = 0;
     int u = 0;
 
+    // Buffer para acumular as impressoes e formatar no final
     std::ostringstream saidaFinal;
 
     while (std::getline(std::cin, linha))
     {
+        // Limpa o caractere \r
         if (!linha.empty() && linha.back() == '\r') 
         {
             linha.pop_back();
@@ -49,6 +53,7 @@ int main()
             int idAcao = 0;
             token >> idAcao;
 
+            // Realoca o vetor de acoes dobrando a capacidade se o ID estourar o limite
             if (idAcao >= capAcoes)
             {
                 int novaCap = capAcoes * 2;
@@ -72,6 +77,7 @@ int main()
                 vetorGlobalAcoes[idAcao]->inicializar(idAcao, w);
             }
 
+            // Atualiza o contador total de acoes
             if (idAcao >= N) N = idAcao + 1;
         }
         else if (comando == "U")
@@ -79,6 +85,7 @@ int main()
             int idCliente = 0;
             token >> idCliente;
 
+            // Realoca o vetor de clientes dobrando a capacidade se necessário
             if (idCliente >= capClientes)
             {
                 int novaCap = capClientes * 2;
@@ -152,6 +159,7 @@ int main()
 
             Resultado* tempMetrica = new Resultado[N];
 
+            // Calcula os pontos de cada metrica solicitada e soma no placar final
             for (int j = 0; j < numMetricas; ++j)
             {
                 for (int i = 0; i < N; ++i)
@@ -171,6 +179,7 @@ int main()
 
                 Ordenador::ordenar(tempMetrica, N);
 
+                // Distribui os pontos baseados na posição (N - pos) e multiplica pelo peso
                 for (int pos = 0; pos < N; ++pos)
                 {
                     int idDestaAcao = tempMetrica[pos]._idAcao;
@@ -179,6 +188,7 @@ int main()
                 }
             }
 
+            // Monta o vetor com a pontuacao global definitiva
             for (int i = 0; i < N; ++i)
             {
                 ranking[i]._idAcao = i;
@@ -196,12 +206,15 @@ int main()
                 ranking[j]._posicaoGlobal = j;
             }
 
+            // Desaloca memoria  
             delete[] tempMetrica;
             delete[] placarFinal;
 
+            // Prepara a extracao das acoes que o cliente possui
             Cliente* cliente = idCliente < capClientes ? vetorGlobalClientes[idCliente] : nullptr;
             int numAcoesCliente = cliente ? cliente->getCarteira().getQtdAcoes() : 0;
 
+            // Ajusta o limite caso a carteira tenha menos acoes que as numAcoes pedidas
             int limiteRetorno = numAcoesCliente < numAcoes ? numAcoesCliente : numAcoes;
 
             Resultado* melhores = nullptr;
@@ -213,8 +226,8 @@ int main()
                 piores = new Resultado[limiteRetorno];
             }
 
+            // Desce o ranking preenchendo as melhores
             int contMelhores = 0;
-
             for (int i = 0; i < N && contMelhores < limiteRetorno; ++i)
             {
                 if (cliente && cliente->getCarteira().buscar(ranking[i]._idAcao))
@@ -224,8 +237,8 @@ int main()
                 }
             }
 
+            // Sobe o ranking (de baixo pra cima) preenchendo as piores
             int contPiores = 0;
-
             for (int i = N - 1; i >= 0 && contPiores < limiteRetorno; --i)
             {
                 if (cliente && cliente->getCarteira().buscar(ranking[i]._idAcao))
@@ -235,8 +248,8 @@ int main()
                 }
             }
 
+            // Mini-sort: desfaz a inversao de IDs causada pela leitura de baixo pra cima nos casos de empate
             double margem = 0.00001;
-
             for (int i = 0; i < contPiores - 1; ++i) 
             {
                 for (int j = 0; j < contPiores - i - 1; ++j) 
@@ -255,6 +268,7 @@ int main()
                 }
             }
 
+            // Junta os resultados no buffer
             for (int i = 0; i < contMelhores; ++i)
             {
                 saidaFinal << "R " << idConsulta << " M " << i << " " << melhores[i]._idAcao << " " << std::fixed << std::setprecision(2) << melhores[i]._pontuacao << "\r\n";
@@ -271,8 +285,8 @@ int main()
         }
     }
 
+    // Remove a ultima quebra de linha do buffer
     std::string textoFinal = saidaFinal.str();
-    
     if (!textoFinal.empty()) 
     {
         if (textoFinal.back() == '\n') textoFinal.pop_back();
@@ -281,6 +295,7 @@ int main()
 
     std::cout << textoFinal;
 
+    // Desaloca memoria
     for (int i = 0; i < capAcoes; ++i) 
     {
         if (vetorGlobalAcoes[i]) delete vetorGlobalAcoes[i];

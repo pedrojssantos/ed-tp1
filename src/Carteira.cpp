@@ -7,6 +7,7 @@ Carteira::~Carteira()
     NoCarteira* noAtual = _primeiro;
     NoCarteira* proxNo = nullptr;
 
+    // Varre a lista inteira deletando os nos
     while (noAtual)
     {
         proxNo = noAtual->_prox;
@@ -26,6 +27,7 @@ void Carteira::inserir(int id)
     novoNo->_idAcao = id;
     novoNo->_prox = nullptr;
 
+    // Insere o novo no
     if (!_primeiro)
     {
         _primeiro = novoNo;
@@ -45,6 +47,7 @@ void Carteira::remover(int id)
     NoCarteira* noAtual = _primeiro;
     NoCarteira* noAnterior = nullptr;
 
+    // Percorre a lista ate achar o no a ser deletado
     while (noAtual)
     {
         if (noAtual->_idAcao == id)
@@ -74,6 +77,7 @@ bool Carteira::buscar(int id) const
 
     bool existeId = false;
 
+    // Percorre a lista ate achar o no
     while (noAtual)
     {
         if (noAtual->_idAcao == id)
